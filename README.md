@@ -18,3 +18,75 @@ Processamento de Pedidos: Criação e acompanhamento de pedidos com integração
 Gestão de Estoque: Atualização de estoque em tempo real via eventos Kafka.
 Notificações: Envio de alertas por e-mail ou SMS sobre status de pedidos.
 Documentação: APIs documentadas com Swagger/OpenAPI para facilitar integração.
+
+## 🛠️ Tecnologias Utilizadas
+
+
+|                   🚀 Tecnologias                    | 🚀 + Padrões Utilizados                       |
+|-----------------------------------------------------|-----------------------------------------------|
+| ✅ **Linguagem: Java 21+**                          | ✅ **Lombok**                                 |
+| ✅ **Framework: Spring Boot 3.5.x**                 | ✅ **Bean Validation**                        |
+| ✅ **Camadas: `Controller → Service → Repository`** | ✅ **Actuador**                               |
+| ✅ **Spring Security (JWT)**                        | ✅ **Cors Configuration**                     |
+| ✅ **Spring Data JPA**                              | ✅ **Postman para testes**                    |
+| ✅ **PostgreSQL (com Docker)**                      | ✅ **Padronização de logs com SLF4J**         |
+| ✅ **Docker + Docker Compose**                      | ✅ **Maven (multi-módulo)**                   |
+| ✅ **DTO com `record`**                             | ✅ **Apache Kafka**                           |
+| ✅ **MapStruct para conversões**                    | ✅ **Swagger SpringDoc OpenAPI + Swagger UI** |
+
+---
+
+## 🔐 Autenticação e Autorização
+
+A autenticação é centralizada no serviço primestore-auth, utilizando Spring Security com JWT e RBAC. As roles disponíveis são:
+
+ROLE_USER: Clientes do e-commerce.
+ROLE_ADMIN: Administradores do sistema.
+ROLE_SELLER: Vendedores ou gerentes de estoque.
+
+Fluxo de autenticação:
+
+sequenceDiagram
+participant Usuário
+participant AuthService
+participant OtherService
+Usuário->>AuthService: POST /auth/signin (credenciais: username, password)
+AuthService-->>Usuário: Retorna JWT (access_token)
+Usuário->>OtherService: Requisição autenticada (Authorization: Bearer <token>)
+OtherService-->>Usuário: Resposta com dados protegidos
+
+---
+
+
+📂 Estrutura do Projeto
+O projeto é organizado em módulos Maven para maior modularidade e manutenção:
+
+```bash
+    primestore/
+        ├── primestore-auth/                    # Serviço de autenticação e autorização (JWT)
+        ├── primestore-catalog/                 # Vitrine (produtos, categorias)
+        ├── primestore-order/                   # Núcleo da venda (Order, OrderPedido)
+        ├── primestore-pay/                     # Processamento de pagamentos
+        ├── primestore-stock/                   # Gerenciamento de estoque
+        ├── primestore-notifier/                # Notificações (e-mail, SMS)
+        ├── common-events/                      # Biblioteca compartilhada (DTOs, eventos Kafka)
+        ├── docker-compose.yml                  # Configuração de Docker para PostgreSQL e Kafka
+        └── pom.xml                             # Configuração Maven multi-módulo
+```
+
+📚 Documentação da API
+
+Acesse a documentação de cada microserviço via Swagger UI:
+
+Auth Service: http://localhost:8080/swagger-ui/index.html
+
+Core Service: http://localhost:8081/swagger-ui/index.html
+
+Versão da API: v1.0.0
+
+Ferramenta: SpringDoc OpenAPI
+
+---
+
+## 🏗️ Melhorias Futuras
+
