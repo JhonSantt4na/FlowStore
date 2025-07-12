@@ -35,6 +35,7 @@
 
     <modules>
         <module>flowstore-common</module>
+        <module>flowstore-auth</module>
     </modules>
 
 
