@@ -29,13 +29,12 @@ public class ProductController {
 	@PutMapping(value = "/{id}",
 		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<ProductDTO> update(@RequestParam Long id, @Valid @RequestParam ProductDTO product){
+	ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO product){
 		ProductDTO updated = productService.updateProduct(id, product);
 		return ResponseEntity.ok().body(updated);
 	}
 	
 	@GetMapping(
-		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<List<ProductDTO>> listAll(){
 		List<ProductDTO> listOfProducts = productService.listAllProduct();
@@ -44,27 +43,24 @@ public class ProductController {
 	
 	@GetMapping(
 		value = "/{id}",
-		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<ProductDTO> findById(@RequestParam Long id){
-		ProductDTO finded = productService.findByIdProduct(id);
-		return ResponseEntity.ok().body(finded);
+	ResponseEntity<ProductDTO> findById(@PathVariable Long id){
+		ProductDTO findProductId = productService.findByIdProduct(id);
+		return ResponseEntity.ok().body(findProductId);
 	}
 	
 	@GetMapping(
-		value = "/{id}",
-		consumes = MediaType.APPLICATION_JSON_VALUE,
+		value = "/name/{name}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<ProductDTO> findByName(@RequestParam String name){
-		ProductDTO finded = productService.findByIdNameProduct(name);
-		return ResponseEntity.ok().body(finded);
+	ResponseEntity<ProductDTO> findByName(@PathVariable String name){
+		ProductDTO findProductByName = productService.findByIdNameProduct(name);
+		return ResponseEntity.ok().body(findProductByName);
 	}
 	
 	@DeleteMapping(
 		value = "/{id}",
-		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<Void> delete(@RequestParam Long id){
+	ResponseEntity<Void> delete(@PathVariable Long id){
 		productService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
 	}
