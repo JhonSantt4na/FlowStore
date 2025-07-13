@@ -11,13 +11,14 @@ import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Setter
 @Getter
+@Setter
+@Entity
 @AllArgsConstructor
-public class Product implements Serializable {
+public class Category implements Serializable {
 	
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -30,17 +31,13 @@ public class Product implements Serializable {
 	@Column(name = "product_name", unique = true, nullable = false)
 	private String name;
 	
-	@NotNull
-	@Column(name = "product_price", unique = true, nullable = false)
-	private Double price;
 	
 	private String description;
-	private String currency;
+	
 	private String imgUrl;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id", nullable = false)
-	private Category category;
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	private List<Product> products;
 	
 	@CreationTimestamp
 	private LocalDateTime createAt;
@@ -48,14 +45,14 @@ public class Product implements Serializable {
 	@UpdateTimestamp
 	private LocalDateTime updateAt;
 	
-	public Product() {
+	public Category() {
 	}
 	
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || getClass() != o.getClass()) return false;
-		Product product = (Product) o;
-		return Objects.equals(id, product.id);
+		Category category = (Category) o;
+		return Objects.equals(id, category.id);
 	}
 	
 	@Override

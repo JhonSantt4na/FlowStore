@@ -1,25 +1,27 @@
 package com.santt4na.flowstore_catalog.service;
 
-import com.santt4na.flowstore_catalog.dto.ProductDTO;
+import com.santt4na.flowstore_catalog.dto.Product.ProductDTO;
 import com.santt4na.flowstore_catalog.entity.Product;
 import com.santt4na.flowstore_catalog.mapper.ProductMapper;
 import com.santt4na.flowstore_catalog.repository.ProductRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class ProductService {
 	
-	@Autowired
-	private ProductMapper mapper;
+	public ProductService(ProductMapper mapper, ProductRepository repository) {
+		this.mapper = mapper;
+		this.repository = repository;
+	}
 	
 	@Autowired
-	private ProductRepository repository;
+	private final ProductMapper mapper;
+	
+	@Autowired
+	private final ProductRepository repository;
 	
 	public ProductDTO createProduct(ProductDTO productDTO) {
 		Product newProduct = mapper.toEntity(productDTO);
@@ -28,11 +30,16 @@ public class ProductService {
 	}
 	
 	public List<ProductDTO> listAllProduct(){
-		return null;
+		List<Product> product = repository.findAll();
+		return product.stream()
+			.map(mapper::toDTO)
+			.toList();
 	}
 	
 	public ProductDTO findByIdProduct(Long id){
-		return null;
+		Product findProduct = repository.findById(id)
+			.orElseThrow(() -> new RuntimeException("Product Not Found!"));
+		return mapper.toDTO(findProduct);
 	}
 	
 	
@@ -43,19 +50,20 @@ public class ProductService {
 		existingProduct.setName(productDTO.name());
 		existingProduct.setDescription(productDTO.description());
 		existingProduct.setPrice(productDTO.price());
-		existingProduct.setCategoryId(productDTO.categoryId());
 		
 		Product updatedProduct = repository.save(existingProduct);
 		return mapper.toDTO(updatedProduct);
 	}
 	
-	
-	
 	public ProductDTO findByIdNameProduct(String name){
-		return null;
+		Product findProductName = repository.findByName(name)
+			.orElseThrow(() -> new RuntimeException("Product Not Found!"));
+		return mapper.toDTO(findProductName);
 	}
 	
 	public void deleteProduct(Long id){
+		Product productDelete = repository.findById(id)
+			.orElseThrow(()-> new RuntimeException("Product Not Found"));
+		repository.delete(productDelete);
 	}
-	
 }
