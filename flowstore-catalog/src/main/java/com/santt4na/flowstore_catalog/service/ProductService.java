@@ -1,6 +1,6 @@
 package com.santt4na.flowstore_catalog.service;
 
-import com.santt4na.flowstore_catalog.dto.ProductDTO;
+import com.santt4na.flowstore_catalog.dto.Product.ProductDTO;
 import com.santt4na.flowstore_catalog.entity.Product;
 import com.santt4na.flowstore_catalog.mapper.ProductMapper;
 import com.santt4na.flowstore_catalog.repository.ProductRepository;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -51,7 +50,6 @@ public class ProductService {
 		existingProduct.setName(productDTO.name());
 		existingProduct.setDescription(productDTO.description());
 		existingProduct.setPrice(productDTO.price());
-		existingProduct.setCategoryId(productDTO.categoryId());
 		
 		Product updatedProduct = repository.save(existingProduct);
 		return mapper.toDTO(updatedProduct);

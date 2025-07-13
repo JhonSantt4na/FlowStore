@@ -1,6 +1,6 @@
 package com.santt4na.flowstore_catalog.controller;
 
-import com.santt4na.flowstore_catalog.dto.ProductDTO;
+import com.santt4na.flowstore_catalog.dto.Product.ProductDTO;
 import com.santt4na.flowstore_catalog.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
