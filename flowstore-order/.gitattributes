@@ -1,0 +1,17 @@
+# Force LF no repositório para arquivos de texto comuns
+* text=auto eol=lf
+
+# Arquivos de script shell, etc., sempre LF
+*.sh text eol=lf
+
+# Para scripts Windows cmd/bat, pode ser CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Maven Wrapper scripts
+mvnw text eol=lf
+mvnw.cmd text eol=crlf
+
+# Java, XML e outros arquivos texto que você usar
+*.java text eol=lf
+*.xml text eol=lf
