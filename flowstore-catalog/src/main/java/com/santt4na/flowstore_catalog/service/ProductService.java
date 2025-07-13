@@ -1,9 +1,12 @@
 package com.santt4na.flowstore_catalog.service;
 
+import com.santt4na.flowstore_catalog.dto.Product.ProductCategoryUpdateDTO;
 import com.santt4na.flowstore_catalog.dto.Product.ProductDTO;
+import com.santt4na.flowstore_catalog.entity.Category;
 import com.santt4na.flowstore_catalog.entity.Product;
 import com.santt4na.flowstore_catalog.mapper.ProductMapper;
 import com.santt4na.flowstore_catalog.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +45,19 @@ public class ProductService {
 		return mapper.toDTO(findProduct);
 	}
 	
+	@Transactional
+	public ProductDTO updateProductCategory(Long productId, ProductCategoryUpdateDTO dto) {
+		Product product = repository.findById(productId)
+			.orElseThrow(() -> new RuntimeException("Product Not Found!"));
+		
+		Category category = repository.findById(dto.categoryId())
+			.orElseThrow(() -> new RuntimeException("Category Not Found!")).getCategory();
+		
+		product.setCategory(category);
+		Product updated = repository.save(product);
+		
+		return mapper.toDTO(updated);
+	}
 	
 	public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
 		Product existingProduct = repository.findById(id)

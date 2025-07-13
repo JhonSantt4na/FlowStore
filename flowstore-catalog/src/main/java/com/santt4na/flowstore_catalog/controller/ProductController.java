@@ -1,5 +1,6 @@
 package com.santt4na.flowstore_catalog.controller;
 
+import com.santt4na.flowstore_catalog.dto.Product.ProductCategoryUpdateDTO;
 import com.santt4na.flowstore_catalog.dto.Product.ProductDTO;
 import com.santt4na.flowstore_catalog.service.ProductService;
 import jakarta.validation.Valid;
@@ -32,6 +33,14 @@ public class ProductController {
 	ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO product){
 		ProductDTO updated = productService.updateProduct(id, product);
 		return ResponseEntity.ok().body(updated);
+	}
+	
+	@PatchMapping("/{id}/category")
+	public ResponseEntity<ProductDTO> updateCategory(
+		@PathVariable Long id,
+		@RequestBody @Valid ProductCategoryUpdateDTO dto) {
+		ProductDTO updated = productService.updateProductCategory(id, dto);
+		return ResponseEntity.ok(updated);
 	}
 	
 	@GetMapping(
