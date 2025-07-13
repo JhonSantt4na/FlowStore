@@ -36,7 +36,7 @@ public class Category implements Serializable {
 	
 	private String imgUrl;
 	
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Product> products;
 	
 	@CreationTimestamp
