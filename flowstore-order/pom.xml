@@ -19,7 +19,7 @@
 
 	<dependencies>
 
-		<!-- Common-->
+		<!-- Common module -->
 		<dependency>
 			<groupId>com.santt4na</groupId>
 			<artifactId>flowstore-common</artifactId>
@@ -54,7 +54,7 @@
 			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
 
-		<!-- Postgres-->
+		<!-- Postgres driver -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -66,17 +66,12 @@
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct-processor</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
 		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Devtools -->
@@ -107,6 +102,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- versão herdada do pluginManagement do pai -->
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
