@@ -1,11 +1,14 @@
 package com.santt4na.flowstore_order.entity;
 
+import com.santt4na.dtos.catalog.ProductDTO;
 import com.santt4na.flowstore_order.entity.PK.OrderItemPK;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serial;
@@ -15,6 +18,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tb_order_item")
 public class OrderItem implements Serializable {
@@ -25,11 +29,15 @@ public class OrderItem implements Serializable {
 	@EmbeddedId
 	private OrderItemPK id =  new OrderItemPK();
 	
+	@Transient
+	private ProductDTO productDetails;
+	
 	private Integer quantity;
 	
 	private Double price;
 	
-	public OrderItem() {
+	public Long getProductId() {
+		return id != null ? id.getProductId() : null;
 	}
 	
 	@Override

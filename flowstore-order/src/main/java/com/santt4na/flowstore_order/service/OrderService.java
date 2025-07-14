@@ -34,11 +34,11 @@ public class OrderService {
 	
 	
 	public OrderDTO createOrder(@Valid OrderDTO orderDTO) {
-		// Validar se produtos existem no catálogo
+		
 		orderDTO.items().forEach(item -> {
 			ProductDTO productDTO = productClient.findProductById(item.productId());
 			if (productDTO == null) {
-				throw new IllegalArgumentException("Produto não encontrado: " + item.productId());
+				throw new IllegalArgumentException("Product Not found: " + item.productId());
 			}
 		});
 		
@@ -49,20 +49,18 @@ public class OrderService {
 	
 	public OrderDTO updateOrder(Long id, @Valid OrderDTO orderDTO) {
 		Order existingOrder = orderRepository.findById(id)
-			.orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado com id: " + id));
+			.orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
 		
-		// Atualiza os dados (exceto id)
 		existingOrder.setOrderStatus(orderDTO.orderStatus());
 		existingOrder.setClientId(orderDTO.clientId());
 		existingOrder.setMoment(orderDTO.moment());
 		
-		// Atualizar itens: para simplicidade, limpar e recriar
 		existingOrder.getItems().clear();
 		orderDTO.items().forEach(itemDTO -> {
-			// Validar produto via ProductClient
+			
 			ProductDTO productDTO = productClient.findProductById(itemDTO.productId());
 			if (productDTO == null) {
-				throw new IllegalArgumentException("Produto não encontrado: " + itemDTO.productId());
+				throw new IllegalArgumentException("Product Not Found: " + itemDTO.productId());
 			}
 			
 			OrderItem item = new OrderItem();
@@ -75,25 +73,25 @@ public class OrderService {
 		});
 		
 		Order updatedOrder = orderRepository.save(existingOrder);
-		return orderMapper.toDTO(updatedOrder);
+		return orderMapper.toDto(updatedOrder);
 	}
 	
 	public List<OrderDTO> listAllOrder() {
 		List<Order> orders = orderRepository.findAll();
 		return orders.stream()
-			.map(orderMapper::toDTO)
+			.map(orderMapper::toDto)
 			.toList();
 	}
 	
 	public OrderDTO findByIdOrder(Long id) {
 		Order order = orderRepository.findById(id)
-			.orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado com id: " + id));
-		return orderMapper.toDTO(order);
+			.orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
+		return orderMapper.toDto(order);
 	}
 	
 	public void deleteOrder(Long id) {
 		if (!orderRepository.existsById(id)) {
-			throw new EntityNotFoundException("Pedido não encontrado com id: " + id);
+			throw new EntityNotFoundException("Order not found with ID: " + id);
 		}
 		orderRepository.deleteById(id);
 	}
