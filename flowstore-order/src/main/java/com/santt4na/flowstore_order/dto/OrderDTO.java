@@ -11,4 +11,5 @@ public record OrderDTO(
 	OrderStatus orderStatus,
 	Long clientId,
 	Set<OrderItemDTO> items
-) {}
+) {
+}

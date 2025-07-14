@@ -5,6 +5,7 @@ import com.santt4na.flowstore_order.client.ProductClient;
 import com.santt4na.flowstore_order.dto.OrderDTO;
 import com.santt4na.flowstore_order.entity.Order;
 import com.santt4na.flowstore_order.entity.OrderItem;
+import com.santt4na.flowstore_order.entity.PK.OrderItemPK;
 import com.santt4na.flowstore_order.mapper.OrderMapper;
 import com.santt4na.flowstore_order.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -42,10 +45,33 @@ public class OrderService {
 			}
 		});
 		
-		Order order = orderMapper.toEntity(orderDTO);
+		Order order = new Order();
+		order.setMoment(orderDTO.moment());
+		order.setOrderStatus(orderDTO.orderStatus());
+		order.setClientId(orderDTO.clientId());
+		
 		Order savedOrder = orderRepository.save(order);
+		
+		Order finalSavedOrder = savedOrder;
+		Set<OrderItem> items = orderDTO.items().stream().map(itemDTO -> {
+			OrderItemPK pk = new OrderItemPK();
+			pk.setOrder(finalSavedOrder);
+			pk.setProductId(itemDTO.productId());
+			
+			OrderItem orderItem = new OrderItem();
+			orderItem.setId(pk);
+			orderItem.setQuantity(itemDTO.quantity());
+			orderItem.setPrice(itemDTO.price());
+			return orderItem;
+		}).collect(Collectors.toSet());
+		
+		savedOrder.setItems(items);
+		
+		savedOrder = orderRepository.save(savedOrder);
+		
 		return orderMapper.toDto(savedOrder);
 	}
+	
 	
 	public OrderDTO updateOrder(Long id, @Valid OrderDTO orderDTO) {
 		Order existingOrder = orderRepository.findById(id)
