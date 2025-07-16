@@ -1,4 +1,12 @@
 package com.santt4na.flowstore_stock.repository;
 
-public interface StockMovement {
+import com.santt4na.flowstore_stock.entity.StockMovement;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface StockMovementRepository extends JpaRepository<StockMovement, Long> {
+	List<StockMovement> findByInventoryItemId(Long inventoryItemId);
 }

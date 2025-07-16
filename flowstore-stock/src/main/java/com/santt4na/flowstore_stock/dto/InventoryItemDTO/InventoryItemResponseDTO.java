@@ -1,4 +1,4 @@
-package com.santt4na.flowstore_stock.dto;
+package com.santt4na.flowstore_stock.dto.InventoryItemDTO;
 
 public record InventoryItemResponseDTO(
 	Long id,
