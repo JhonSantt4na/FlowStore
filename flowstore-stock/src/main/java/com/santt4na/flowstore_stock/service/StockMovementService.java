@@ -5,26 +5,26 @@ import com.santt4na.flowstore_stock.dto.StockMovementDTO.CreateStockMovement;
 import com.santt4na.flowstore_stock.dto.StockMovementDTO.StockMovementResponseDTO;
 import com.santt4na.flowstore_stock.entity.InventoryItem;
 import com.santt4na.flowstore_stock.entity.StockMovement;
-import com.santt4na.flowstore_stock.mapper.InventoryItemMapper;
 import com.santt4na.flowstore_stock.mapper.StockMovementMapper;
 import com.santt4na.flowstore_stock.repository.InventoryItemRepository;
 import com.santt4na.flowstore_stock.repository.StockMovementRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class StockMovementService {
 	private final StockMovementRepository repositoryStock;
 	private final InventoryItemRepository repositoryInventory;
 	private final StockMovementMapper mapperStock;
-	private final InventoryItemMapper mapperInventory;
 	
-	public StockMovementService(StockMovementRepository repositoryStock, InventoryItemRepository repositoryInventory, StockMovementMapper mapperStock, InventoryItemMapper mapperInventory) {
+	public StockMovementService(StockMovementRepository repositoryStock, InventoryItemRepository repositoryInventory, StockMovementMapper mapperStock) {
 		this.repositoryStock = repositoryStock;
 		this.repositoryInventory = repositoryInventory;
 		this.mapperStock = mapperStock;
-		this.mapperInventory = mapperInventory;
 	}
-
+	
 	public StockMovementResponseDTO registerMovement(CreateStockMovement dto){
 		InventoryItem item = repositoryInventory.findById(dto.inventoryItemId())
 			.orElseThrow(()-> new RuntimeException("Inventory not found"));
@@ -42,9 +42,16 @@ public class StockMovementService {
 		repositoryInventory.save(item);
 		
 		StockMovement movement = mapperStock.toEntity(dto);
+		movement.setMovementDate(LocalDateTime.now());
+		movement.setInventoryId(dto.inventoryItemId());
 		repositoryStock.save(movement);
 		
 		return mapperStock.toDTO(movement);
+	}
+	
+	public List<StockMovementResponseDTO> listAll(){
+		List<StockMovement> listStock = repositoryStock.findAll();
+		return listStock.stream().map(mapperStock::toDTO).toList();
 	}
 	
 }

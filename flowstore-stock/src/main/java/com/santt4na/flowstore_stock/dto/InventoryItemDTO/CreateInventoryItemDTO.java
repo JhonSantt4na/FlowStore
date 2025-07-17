@@ -1,6 +1,8 @@
 package com.santt4na.flowstore_stock.dto.InventoryItemDTO;
 
+import jakarta.validation.constraints.NotNull;
+
 public record CreateInventoryItemDTO (
-	 Long productId,
-	 Integer quantityInitial
+	@NotNull Long productId,
+	@NotNull Integer quantityInitial
 ) {}
