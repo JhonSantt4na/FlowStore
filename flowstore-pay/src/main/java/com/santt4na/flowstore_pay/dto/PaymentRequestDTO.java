@@ -1,4 +1,7 @@
 package com.santt4na.flowstore_pay.dto;
 
-public record PaymentRequestDTO() {
+public record PaymentRequestDTO(
+	Long orderId,
+	Double amount
+) {
 }

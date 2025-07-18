@@ -1,4 +1,16 @@
 package com.santt4na.flowstore_pay.dto;
 
-public record PaymentResponseDTO() {
+import com.santt4na.flowstore_pay.enums.PaymentStatus;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public record PaymentResponseDTO(
+	UUID id,
+	String orderId,
+	Double amount,
+	PaymentStatus status,
+	String transactionId,
+	LocalDateTime createdAt
+) {
 }

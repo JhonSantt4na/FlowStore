@@ -10,17 +10,16 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>flowstore-stock</artifactId>
+	<artifactId>flowstore-pay</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>flowstore-stock</name>
-	<description>Controle de Estoque é responsável pela gestão eficiente e confiável do inventário dos produtos disponíveis no sistema. Ele mantém o registro atualizado das quantidades em estoque, controla entradas e saídas de produtos</description>
+	<name>flowstore-pay</name>
+	<description>O FlowStore-Pay é responsável pelo processamento, validação e gerenciamento de pagamentos realizados na plataforma.</description>
 
 	<properties>
 		<java.version>21</java.version>
 	</properties>
 
 	<dependencies>
-
 		<!-- Common module -->
 		<dependency>
 			<groupId>com.santt4na</groupId>
@@ -37,11 +36,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 
 		<!-- Kafka -->
@@ -96,6 +90,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
