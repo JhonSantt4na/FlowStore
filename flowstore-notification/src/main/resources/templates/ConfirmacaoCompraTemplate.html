@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #333333;
+        }
+        .content p {
+            color: #555555;
+            line-height: 1.6;
+        }
+        .order-details {
+            width: 100%%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .order-details th, .order-details td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .order-details th {
+            background-color: #f2f2f2;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Confirmação de Compra</h1>
+    </div>
+    <div class="content">
+        <h2>Olá, %s</h2>
+        <p>Obrigado por sua compra! Estamos felizes em confirmar que seu pedido foi realizado com sucesso. Abaixo estão os detalhes da sua compra:</p>
+        <table class="order-details">
+            <tr>
+                <th>Número do Pedido</th>
+                <td>%s</td>
+            </tr>
+            <tr>
+                <th>Produto</th>
+                <td>%s</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>%s</td>
+            </tr>
+        </table>
+        <p>Seu pedido será processado em breve e você receberá atualizações sobre o status da entrega.</p>
+        <p>Se precisar de ajuda, entre em contato com nossa equipe de suporte em <a href="mailto:suporte@flowstore.com">suporte@flowstore.com</a>.</p>
+    </div>
+    <div class="footer">
+        <p>© 2025 Flowstore. Todos os direitos reservados.</p>
+    </div>
+</div>
+</body>
+</html>
