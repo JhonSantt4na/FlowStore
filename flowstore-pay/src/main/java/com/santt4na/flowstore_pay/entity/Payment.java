@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -27,16 +29,12 @@ public class Payment {
 	private Double amount;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
 	private PaymentStatus status;
-	
-	@Column
-	private String transactionId;
-	
-	@Column(nullable = false)
+
+	@CreationTimestamp
 	private LocalDateTime createdAt;
 	
-	@Column
+	@UpdateTimestamp
 	private LocalDateTime updatedAt;
 	
 	public Payment() {

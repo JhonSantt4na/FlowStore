@@ -10,7 +10,6 @@ public record PaymentResponseDTO(
 	String orderId,
 	Double amount,
 	PaymentStatus status,
-	String transactionId,
 	LocalDateTime createdAt
 ) {
 }
