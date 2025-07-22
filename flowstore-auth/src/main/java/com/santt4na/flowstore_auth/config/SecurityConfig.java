@@ -1,7 +1,7 @@
 package com.santt4na.flowstore_auth.config;
 
-import com.santt4na.flowstore_auth.security.SecurityFilter;
 import com.santt4na.flowstore_auth.service.CustomUserDetailsService;
+import com.santt4na.security.FilterCommon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class SecurityConfig {
 	private CustomUserDetailsService userDetailsService;
 	
 	@Autowired
-	SecurityFilter securityFilter;
+	private FilterCommon filterCommon;
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,7 +35,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
 				.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 				.anyRequest().authenticated())
-			.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(filterCommon, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 	
