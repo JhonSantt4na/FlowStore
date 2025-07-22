@@ -38,6 +38,9 @@
         <module>flowstore-auth</module>
         <module>flowstore-order</module>
         <module>flowstore-catalog</module>
+        <module>flowstore-notification</module>
+        <module>flowstore-pay</module>
+        <module>flowstore-stock</module>
     </modules>
 
     <dependencyManagement>
