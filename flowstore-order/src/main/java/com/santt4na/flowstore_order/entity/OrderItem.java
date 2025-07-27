@@ -1,6 +1,6 @@
 package com.santt4na.flowstore_order.entity;
 
-import com.santt4na.dtos.catalog.ProductDTO;
+import com.santt4na.dtos.Catalog.ProductDTO;
 import com.santt4na.flowstore_order.entity.PK.OrderItemPK;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -36,7 +36,7 @@ public class OrderItem implements Serializable {
 	
 	private Double price;
 	
-	public Long getProductId() {
+	public Long getProduct() {
 		return id != null ? id.getProductId() : null;
 	}
 	

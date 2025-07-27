@@ -1,5 +1,6 @@
 package com.santt4na.flowstore_pay.controller;
 
+import com.santt4na.dtos.Order.OrderDTO;
 import com.santt4na.flowstore_pay.dto.PaymentRequestDTO;
 import com.santt4na.flowstore_pay.dto.PaymentResponseDTO;
 import com.santt4na.flowstore_pay.service.PaymentService;
@@ -28,9 +29,9 @@ public class PaymentController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 	
-	@PostMapping("/process/{id}/{isValid}")
-	public ResponseEntity<Boolean> processPayment(@PathVariable UUID id, @PathVariable boolean isValid) {
-		return ResponseEntity.ok(service.processPayment(id, isValid));
+	@PostMapping("/process")
+	public void processPayment(@RequestBody OrderDTO dto) {
+		service.processPayment(dto);
 	}
 	
 	@GetMapping()

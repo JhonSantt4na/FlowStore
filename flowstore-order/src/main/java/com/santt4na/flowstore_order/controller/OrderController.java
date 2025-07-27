@@ -1,6 +1,6 @@
 package com.santt4na.flowstore_order.controller;
 
-import com.santt4na.flowstore_order.dto.OrderDTO;
+import com.santt4na.dtos.Order.OrderDTO;
 import com.santt4na.flowstore_order.mapper.OrderMapper;
 import com.santt4na.flowstore_order.service.OrderService;
 import jakarta.validation.Valid;

@@ -1,7 +1,6 @@
 package com.santt4na.flowstore_order.client;
 
-import com.santt4na.dtos.catalog.ProductDTO;
-import com.santt4na.flowstore_order.config.FeignConfig;
+import com.santt4na.dtos.Catalog.ProductDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

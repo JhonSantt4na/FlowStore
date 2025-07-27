@@ -1,15 +1,18 @@
 package com.santt4na.flowstore_order.service;
 
-import com.santt4na.dtos.catalog.ProductDTO;
+import com.santt4na.dtos.Catalog.ProductDTO;
+import com.santt4na.dtos.Order.OrderDTO;
+import com.santt4na.enums.OrderStatus;
 import com.santt4na.flowstore_order.client.ProductClient;
-import com.santt4na.flowstore_order.dto.OrderDTO;
+
+
 import com.santt4na.flowstore_order.entity.Order;
 import com.santt4na.flowstore_order.entity.OrderItem;
 import com.santt4na.flowstore_order.entity.PK.OrderItemPK;
+import com.santt4na.flowstore_order.events.OrderCreatedProducer;
 import com.santt4na.flowstore_order.mapper.OrderMapper;
 import com.santt4na.flowstore_order.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +23,15 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
 	
-	public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, ProductClient productClient) {
+	public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, ProductClient productClient, OrderCreatedProducer orderProducer) {
 		this.orderRepository = orderRepository;
 		this.orderMapper = orderMapper;
 		this.productClient = productClient;
+		this.orderProducer = orderProducer;
 	}
+	
+	@Autowired
+	private final OrderCreatedProducer orderProducer;
 	
 	@Autowired
 	private final OrderRepository orderRepository;
@@ -36,10 +43,10 @@ public class OrderService {
 	private final ProductClient productClient;
 	
 	
-	public OrderDTO createOrder(@Valid OrderDTO orderDTO) {
+	public OrderDTO createOrder(OrderDTO orderDTO) {
 		
 		orderDTO.items().forEach(item -> {
-			ProductDTO productDTO = productClient.findProductById(item.productId());
+			ProductDTO productDTO = productClient.findProductById(item.productId().id());
 			if (productDTO == null) {
 				throw new IllegalArgumentException("Product Not found: " + item.productId());
 			}
@@ -56,7 +63,7 @@ public class OrderService {
 		Set<OrderItem> items = orderDTO.items().stream().map(itemDTO -> {
 			OrderItemPK pk = new OrderItemPK();
 			pk.setOrder(finalSavedOrder);
-			pk.setProductId(itemDTO.productId());
+			pk.setProductId(itemDTO.productId().id());
 			
 			OrderItem orderItem = new OrderItem();
 			orderItem.setId(pk);
@@ -69,11 +76,12 @@ public class OrderService {
 		
 		savedOrder = orderRepository.save(savedOrder);
 		
+		orderProducer.sendOrderCreatedEvent(orderMapper.toDto(savedOrder));
+		
 		return orderMapper.toDto(savedOrder);
 	}
 	
-	
-	public OrderDTO updateOrder(Long id, @Valid OrderDTO orderDTO) {
+	public OrderDTO updateOrder(Long id,OrderDTO orderDTO) {
 		Order existingOrder = orderRepository.findById(id)
 			.orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
 		
@@ -84,14 +92,14 @@ public class OrderService {
 		existingOrder.getItems().clear();
 		orderDTO.items().forEach(itemDTO -> {
 			
-			ProductDTO productDTO = productClient.findProductById(itemDTO.productId());
+			ProductDTO productDTO = productClient.findProductById(itemDTO.productId().id());
 			if (productDTO == null) {
 				throw new IllegalArgumentException("Product Not Found: " + itemDTO.productId());
 			}
 			
 			OrderItem item = new OrderItem();
 			item.getId().setOrder(existingOrder);
-			item.getId().setProductId(itemDTO.productId());
+			item.getId().setProductId(itemDTO.productId().id());
 			item.setQuantity(itemDTO.quantity());
 			item.setPrice(itemDTO.price());
 			
@@ -125,5 +133,12 @@ public class OrderService {
 	public void processOrder(Long productId) {
 		ProductDTO product = productClient.findProductById(productId);
 		System.out.println("Product received from the catalog: " + product.name());
+	}
+	
+	public void cancelOrder(Long orderId, String reason) {
+		Order order = orderRepository.findById(orderId).orElseThrow();
+		order.setOrderStatus(OrderStatus.CANCELED);
+		orderRepository.save(order);
+		System.out.println("Order Canceled: " + reason);
 	}
 }

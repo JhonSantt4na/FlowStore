@@ -43,22 +43,15 @@ public class EmailService {
 	
 	public void sendHtmlEmail(NotificationRequestDTO dto, Boolean html) {
 		try {
-			if (dto.userName() == null || dto.orderId() == null ||
-				dto.productName() == null || dto.totalAmount() == null) {
-				throw new IllegalArgumentException("Campos obrigatórios do NotificationRequestDTO não podem ser nulos");
-			}
 			
 			Resource resource = resourceLoader.getResource("classpath:templates/ConfirmacaoCompraTemplate.html");
 			if (!resource.exists()) {
-				throw new IllegalStateException("Template HTML não encontrado em classpath:templates/ConfirmacaoCompraTemplate.html");
+				throw new IllegalStateException("HTML Template Not Found in ClassPath: Templates/ConfirmaCompratemplate.html");
 			}
 			String htmlTemplate = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
 			
 			String htmlContent = String.format(htmlTemplate,
-				dto.userName(),
-				dto.orderId(),
-				dto.productName(),
-				dto.totalAmount()
+				dto.userName()
 			);
 			
 			MimeMessage message = mailSender.createMimeMessage();

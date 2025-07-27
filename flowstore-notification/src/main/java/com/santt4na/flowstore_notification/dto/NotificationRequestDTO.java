@@ -4,8 +4,5 @@ public record NotificationRequestDTO(
 	String emailTarget,
 	String title,
 	String message,
-	String userName,
-	String orderId,
-	String productName,
-	String totalAmount
+	String userName
 ) {}

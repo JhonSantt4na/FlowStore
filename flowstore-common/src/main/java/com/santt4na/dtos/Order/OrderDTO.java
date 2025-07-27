@@ -1,4 +1,4 @@
-package com.santt4na.flowstore_order.dto;
+package com.santt4na.dtos.Order;
 
 import com.santt4na.enums.OrderStatus;
 
