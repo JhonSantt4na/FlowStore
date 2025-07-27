@@ -31,7 +31,7 @@ public class Product implements Serializable {
 	private String name;
 	
 	@NotNull
-	@Column(name = "product_price", unique = true, nullable = false)
+	@Column(name = "product_price", nullable = false)
 	private Double price;
 	
 	private String description;

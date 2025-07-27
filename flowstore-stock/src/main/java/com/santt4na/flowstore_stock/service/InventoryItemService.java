@@ -7,6 +7,8 @@ import com.santt4na.flowstore_stock.dto.InventoryItemDTO.InventoryItemResponseDT
 import com.santt4na.flowstore_stock.entity.InventoryItem;
 import com.santt4na.flowstore_stock.mapper.InventoryItemMapper;
 import com.santt4na.flowstore_stock.repository.InventoryItemRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class InventoryItemService {
+	
+	private static final Logger log = LoggerFactory.getLogger(InventoryItemService.class);
 	
 	@Autowired
 	private KafkaTemplate<String, OrderDTO> kafkaTemplate;

@@ -1,17 +1,14 @@
-package com.santt4na.dtos.Order;
+package com.santt4na.flowstore_order.dto;
 
 import com.santt4na.enums.OrderStatus;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Set;
 
-public record OrderDTO(
-	Long id,
+public record CreateOrderDTO(
 	Instant moment,
 	OrderStatus orderStatus,
 	Long clientId,
-	Set<OrderItemDTO> items,
+	Set<CreateOrderItemDTO> items,
 	Double amount
-) {
-}
+) {}

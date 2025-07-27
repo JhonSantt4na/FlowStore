@@ -6,6 +6,8 @@ import com.santt4na.enums.OrderStatus;
 import com.santt4na.flowstore_order.client.ProductClient;
 
 
+import com.santt4na.flowstore_order.dto.CreateOrderDTO;
+import com.santt4na.flowstore_order.dto.CreateOrderItemDTO;
 import com.santt4na.flowstore_order.entity.Order;
 import com.santt4na.flowstore_order.entity.OrderItem;
 import com.santt4na.flowstore_order.entity.PK.OrderItemPK;
@@ -16,6 +18,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,44 +45,38 @@ public class OrderService {
 	@Autowired
 	private final ProductClient productClient;
 	
-	
-	public OrderDTO createOrder(OrderDTO orderDTO) {
+	public OrderDTO createOrder(CreateOrderDTO orderDTO) {
 		
-		orderDTO.items().forEach(item -> {
-			ProductDTO productDTO = productClient.findProductById(item.productId().id());
-			if (productDTO == null) {
-				throw new IllegalArgumentException("Product Not found: " + item.productId());
-			}
-		});
+		Double totalAmount = orderDTO.items().stream()
+			.mapToDouble(item -> item.price() * item.quantity())
+			.sum();
 		
 		Order order = new Order();
-		order.setMoment(orderDTO.moment());
+		order.setMoment(Instant.now());
 		order.setOrderStatus(orderDTO.orderStatus());
 		order.setClientId(orderDTO.clientId());
+		order.setAmount(totalAmount);
 		
-		Order savedOrder = orderRepository.save(order);
-		
-		Order finalSavedOrder = savedOrder;
 		Set<OrderItem> items = orderDTO.items().stream().map(itemDTO -> {
 			OrderItemPK pk = new OrderItemPK();
-			pk.setOrder(finalSavedOrder);
-			pk.setProductId(itemDTO.productId().id());
+			pk.setOrder(order);
+			pk.setProductId(itemDTO.productId());
 			
-			OrderItem orderItem = new OrderItem();
-			orderItem.setId(pk);
-			orderItem.setQuantity(itemDTO.quantity());
-			orderItem.setPrice(itemDTO.price());
-			return orderItem;
+			OrderItem oi = new OrderItem();
+			oi.setId(pk);
+			oi.setQuantity(itemDTO.quantity());
+			oi.setPrice(itemDTO.price());
+			return oi;
 		}).collect(Collectors.toSet());
 		
-		savedOrder.setItems(items);
+		order.setItems(items);
 		
-		savedOrder = orderRepository.save(savedOrder);
+		Order saved = orderRepository.save(order);
 		
-		orderProducer.sendOrderCreatedEvent(orderMapper.toDto(savedOrder));
-		
-		return orderMapper.toDto(savedOrder);
+		orderProducer.sendOrderCreatedEvent(orderMapper.toDto(saved));
+		return orderMapper.toDto(saved);
 	}
+	
 	
 	public OrderDTO updateOrder(Long id,OrderDTO orderDTO) {
 		Order existingOrder = orderRepository.findById(id)

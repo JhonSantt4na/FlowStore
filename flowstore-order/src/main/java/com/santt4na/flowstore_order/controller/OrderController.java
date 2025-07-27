@@ -1,6 +1,7 @@
 package com.santt4na.flowstore_order.controller;
 
 import com.santt4na.dtos.Order.OrderDTO;
+import com.santt4na.flowstore_order.dto.CreateOrderDTO;
 import com.santt4na.flowstore_order.mapper.OrderMapper;
 import com.santt4na.flowstore_order.service.OrderService;
 import jakarta.validation.Valid;
@@ -26,8 +27,8 @@ public class OrderController {
 	@PostMapping(
 		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<OrderDTO> create(@Valid @RequestBody OrderDTO order){
-		OrderDTO created = orderService.createOrder(order);
+	ResponseEntity<OrderDTO> create(@Valid @RequestBody CreateOrderDTO orderdto){
+		OrderDTO created = orderService.createOrder(orderdto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(created);
 	}
 	

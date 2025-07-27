@@ -36,9 +36,14 @@ public class Order implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
 	
+	private Double amount;
 	private Long clientId;
 	
-	@OneToMany(mappedBy = "id.order")
+	@OneToMany(
+		mappedBy = "id.order",
+		cascade = CascadeType.ALL,
+		orphanRemoval = true
+	)
 	private Set<OrderItem> items = new HashSet<>();
 	
 	@Override
