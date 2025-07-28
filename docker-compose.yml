@@ -15,3 +15,98 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
     depends_on:
       - zookeeper
+
+  postgres-auth:
+    image: postgres:15
+    container_name: postgres-flowstore-auth
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: santt4na
+      POSTGRES_PASSWORD: santt4na
+    ports:
+      - "5432:5432"
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+    networks:
+      - flowstore-network
+
+  postgres-catalog:
+    image: postgres:15
+    container_name: postgres-flowstore-catalog
+    environment:
+      POSTGRES_DB: catalogdb
+      POSTGRES_USER: santt4na
+      POSTGRES_PASSWORD: santt4na
+    ports:
+      - "5433:5432"
+    volumes:
+      - catalog_data:/var/lib/postgresql/data
+    networks:
+      - flowstore-network
+
+  postgres-notification:
+    image: postgres:15
+    container_name: postgres-flowstore-notification
+    environment:
+      POSTGRES_DB: notificationdb
+      POSTGRES_USER: santt4na
+      POSTGRES_PASSWORD: santt4na
+    ports:
+      - "5438:5432"
+    volumes:
+      - notification_data:/var/lib/postgresql/data
+    networks:
+      - flowstore-network
+
+  postgres-order:
+    image: postgres:15
+    container_name: postgres-flowstore-order
+    environment:
+      POSTGRES_DB: orderdb
+      POSTGRES_USER: santt4na
+      POSTGRES_PASSWORD: santt4na
+    ports:
+      - "5434:5432"
+    volumes:
+      - order_data:/var/lib/postgresql/data
+    networks:
+      - flowstore-network
+
+  postgres-pay:
+    image: postgres:15
+    container_name: postgres-flowstore-pay
+    environment:
+      POSTGRES_DB: paydb
+      POSTGRES_USER: santt4na
+      POSTGRES_PASSWORD: santt4na
+    ports:
+      - "5436:5432"
+    volumes:
+      - pay_data:/var/lib/postgresql/data
+    networks:
+      - flowstore-network
+
+  postgres-stock:
+    image: postgres:15
+    container_name: postgres-flowstore-stock
+    environment:
+      POSTGRES_DB: stockdb
+      POSTGRES_USER: santt4na
+      POSTGRES_PASSWORD: santt4na
+    ports:
+      - "5435:5432"
+    volumes:
+      - stock_data:/var/lib/postgresql/data
+    networks:
+      - flowstore-network
+
+volumes:
+  auth_data:
+  catalog_data:
+  notification_data:
+  order_data:
+  pay_data:
+  stock_data:
+
+networks:
+  flowstore-network:

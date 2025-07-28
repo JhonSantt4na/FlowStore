@@ -48,6 +48,7 @@ public class PaymentService {
 		
 		Payment payment = new Payment();
 		payment.setOrderId(orderDTO.id().toString());
+		payment.setAmount(orderDTO.amount());
 		
 		if (success){
 			payment.setStatus(PaymentStatus.APPROVED);
