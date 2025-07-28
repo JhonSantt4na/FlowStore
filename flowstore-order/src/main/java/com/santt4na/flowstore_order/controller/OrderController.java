@@ -26,7 +26,7 @@ public class OrderController {
 	@PostMapping(
 		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<OrderDTO> create(@Valid @RequestBody OrderDTO order){
+	ResponseEntity<OrderDTO> create(@Valid @RequestBody OrderDTO order){
 		OrderDTO created = orderService.createOrder(order);
 		return ResponseEntity.status(HttpStatus.CREATED).body(created);
 	}
