@@ -26,7 +26,7 @@ public class OrderController {
 	@PostMapping(
 		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<OrderDTO> create(@Valid @RequestBody OrderDTO order){
+	public ResponseEntity<OrderDTO> create(@Valid @RequestBody OrderDTO order){
 		OrderDTO created = orderService.createOrder(order);
 		return ResponseEntity.status(HttpStatus.CREATED).body(created);
 	}
@@ -34,14 +34,14 @@ public class OrderController {
 	@PutMapping(value = "/{id}",
 		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<OrderDTO> update(@PathVariable Long id, @Valid @RequestBody OrderDTO order){
+	public ResponseEntity<OrderDTO> update(@PathVariable Long id, @Valid @RequestBody OrderDTO order){
 		OrderDTO updated = orderService.updateOrder(id, order);
 		return ResponseEntity.ok().body(updated);
 	}
 	
 	@GetMapping(
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<OrderDTO>> listAll(){
+	public ResponseEntity<List<OrderDTO>> listAll(){
 		List<OrderDTO> listOfOrder = orderService.listAllOrder();
 		return ResponseEntity.ok(listOfOrder);
 	}
@@ -49,7 +49,7 @@ public class OrderController {
 	@GetMapping(
 		value = "/{id}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<OrderDTO> findById(@PathVariable Long id){
+	public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
 		OrderDTO findOrderId = orderService.findByIdOrder(id);
 		return ResponseEntity.ok().body(findOrderId);
 	}
@@ -57,7 +57,7 @@ public class OrderController {
 	@DeleteMapping(
 		value = "/{id}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<Void> delete(@PathVariable Long id){
+	public ResponseEntity<Void> delete(@PathVariable Long id){
 		orderService.deleteOrder(id);
 		return ResponseEntity.noContent().build();
 	}

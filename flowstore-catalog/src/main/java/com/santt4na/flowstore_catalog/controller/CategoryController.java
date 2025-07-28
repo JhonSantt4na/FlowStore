@@ -22,7 +22,7 @@ public class CategoryController {
 	@PostMapping(
 		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<CategoryDTO> create(@Valid @RequestBody CategoryCreateDTO category){
+	public ResponseEntity<CategoryDTO> create(@Valid @RequestBody CategoryCreateDTO category){
 		CategoryDTO created = categoryService.createCategory(category);
 		return ResponseEntity.status(HttpStatus.CREATED).body(created);
 	}
@@ -30,14 +30,14 @@ public class CategoryController {
 	@PutMapping(value = "/{id}",
 		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<CategoryDTO> update(@PathVariable Long id, @Valid @RequestBody CategoryDTO category){
+	public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @Valid @RequestBody CategoryDTO category){
 		CategoryDTO updated = categoryService.updateCategory(id, category);
 		return ResponseEntity.ok().body(updated);
 	}
 	
 	@GetMapping(
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<CategoryDTO>> listAll(){
+	public ResponseEntity<List<CategoryDTO>> listAll(){
 		List<CategoryDTO> listOfCategory = categoryService.listAllCategory();
 		return ResponseEntity.ok(listOfCategory);
 	}
@@ -45,7 +45,7 @@ public class CategoryController {
 	@GetMapping(
 		value = "/{id}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
+	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
 		CategoryDTO findCategoryId = categoryService.findByIdCategory(id);
 		return ResponseEntity.ok().body(findCategoryId);
 	}
@@ -53,7 +53,7 @@ public class CategoryController {
 	@GetMapping(
 		value = "/name/{name}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<CategoryDTO> findByName(@PathVariable String name){
+	public ResponseEntity<CategoryDTO> findByName(@PathVariable String name){
 		CategoryDTO findCategoryByName = categoryService.findByIdNameCategory(name);
 		return ResponseEntity.ok().body(findCategoryByName);
 	}
@@ -61,7 +61,7 @@ public class CategoryController {
 	@DeleteMapping(
 		value = "/{id}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<Void> delete(@PathVariable Long id){
+	public ResponseEntity<Void> delete(@PathVariable Long id){
 		categoryService.deleteCategory(id);
 		return ResponseEntity.noContent().build();
 	}

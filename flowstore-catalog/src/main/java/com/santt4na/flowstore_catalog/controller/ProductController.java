@@ -30,7 +30,7 @@ public class ProductController {
 	@PutMapping(value = "/{id}",
 		consumes = MediaType.APPLICATION_JSON_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO product){
+	public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO product){
 		ProductDTO updated = productService.updateProduct(id, product);
 		return ResponseEntity.ok().body(updated);
 	}
@@ -45,7 +45,7 @@ public class ProductController {
 	
 	@GetMapping(
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<List<ProductDTO>> listAll(){
+	public ResponseEntity<List<ProductDTO>> listAll(){
 		List<ProductDTO> listOfProducts = productService.listAllProduct();
 		return ResponseEntity.ok(listOfProducts);
 	}
@@ -53,7 +53,7 @@ public class ProductController {
 	@GetMapping(
 		value = "/{id}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<ProductDTO> findById(@PathVariable Long id){
+	public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
 		ProductDTO findProductId = productService.findByIdProduct(id);
 		return ResponseEntity.ok().body(findProductId);
 	}
@@ -61,7 +61,7 @@ public class ProductController {
 	@GetMapping(
 		value = "/name/{name}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<ProductDTO> findByName(@PathVariable String name){
+	public ResponseEntity<ProductDTO> findByName(@PathVariable String name){
 		ProductDTO findProductByName = productService.findByIdNameProduct(name);
 		return ResponseEntity.ok().body(findProductByName);
 	}
@@ -69,7 +69,7 @@ public class ProductController {
 	@DeleteMapping(
 		value = "/{id}",
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<Void> delete(@PathVariable Long id){
+	public ResponseEntity<Void> delete(@PathVariable Long id){
 		productService.deleteProduct(id);
 		return ResponseEntity.noContent().build();
 	}
