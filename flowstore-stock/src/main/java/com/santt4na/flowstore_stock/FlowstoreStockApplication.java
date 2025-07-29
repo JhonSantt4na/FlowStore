@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
-@Import({KafkaTopicConfig.class, CommonSecurityConfig.class})
+@Import(KafkaTopicConfig.class)
 public class FlowstoreStockApplication {
 
 	public static void main(String[] args) {

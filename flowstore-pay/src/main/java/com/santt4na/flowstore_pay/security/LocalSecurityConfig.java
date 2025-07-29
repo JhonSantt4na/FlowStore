@@ -1,4 +1,4 @@
-package com.santt4na.flowstore_catalog.security;
+package com.santt4na.flowstore_pay.security;
 
 import com.santt4na.config.CommonSecurityConfig;
 import com.santt4na.security.FilterCommon;
